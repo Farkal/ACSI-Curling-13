@@ -23,7 +23,16 @@ public class Mainview extends JFrame implements ActionListener, DocumentListener
 	private String filePath;
 	private AccessTextFiles atf;
 	
-	
+	/**
+	 * Class Constructor
+	 * 
+	 * Creates the main window of the application. Also initializes the vector containing the files already checked
+	 * and the AccessTextFiles object used to access files in the application.
+	 *
+	 * @param  pTitle the title of the window
+	 *
+	 * @see AccessTextFiles
+	 */
 	public Mainview(String pTitle){
 		
 		super(pTitle);
@@ -64,6 +73,15 @@ public class Mainview extends JFrame implements ActionListener, DocumentListener
 		
 	}
 	
+	/**
+	 * Determine the events done in case of a ActionEvent. If the browse button is clicked, will show a file Chooser Frame.
+	 * If the check Urls button is checked, will check the urls of the file chosen and show the buggy ones.
+	 * Finally, if list of checked files is clicked, will show the list of checked files.
+	 *
+	 * @param  e The action event
+	 * 
+	 *
+	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == this.browse){
 			Chooser frame = new Chooser();
@@ -81,12 +99,18 @@ public class Mainview extends JFrame implements ActionListener, DocumentListener
 		
 	}
 	
-	
+	/**
+	 * Class that generates a file chooser frame.
+	 */
 	class Chooser extends JFrame {
 
 		JFileChooser chooser;
 		String fileName;
-
+		
+		/**
+		 * Class Constructor.
+		 *
+		 */
 		public Chooser() {
 			chooser = new JFileChooser();
 			int r = chooser.showOpenDialog(new JFrame());
@@ -95,15 +119,32 @@ public class Mainview extends JFrame implements ActionListener, DocumentListener
 			}
 		}
 	}
-
+	
+	/**
+	 * Determine the events done in case of an change of a Document.
+	 *
+	 * @param  arg0 the DocumentEvent
+	 *
+	 */
 	public void changedUpdate(DocumentEvent arg0) {
 	}
-
+	/**
+	 * Determine the events done in case of an insert of a Document.
+	 * Enables the button "Check Urls"
+	 *
+	 * @param  arg0 the DocumentEvent
+	 *
+	 */
 	public void insertUpdate(DocumentEvent arg0) {
 		checkUrl.setEnabled(true);
 		
 	}
-
+	/**
+	 * Determine the events done in case of an remove of a Document.
+	 *
+	 * @param  arg0 the DocumentEvent
+	 *
+	 */
 	public void removeUpdate(DocumentEvent arg0) {
 		
 	}

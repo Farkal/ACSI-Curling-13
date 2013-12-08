@@ -12,7 +12,13 @@ public class CheckUrls {
 		
 	private  String contentOfFile;
 	private  Vector<String> buggyurls;
-	
+	/**
+	 * Class constructor. From a file path, check the URLs in this file and store the bad ones in a vector.
+	 *
+	 * @param  pPath the file path
+	 * 
+	 *
+	 */
 	public CheckUrls(String pPath) {
 		 
 		try {
@@ -69,6 +75,14 @@ public class CheckUrls {
 		
 	}
 	
+	/**
+	 * Returns the vector containing the bad URLs.
+	 * 
+	 * @return buggyurls the vector containing the bad URls.
+	 * 
+	 * @see Vector
+	 *
+	 */
 	public Vector<String> get_list(){
 		return this.buggyurls;
 	}

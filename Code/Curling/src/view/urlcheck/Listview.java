@@ -21,6 +21,21 @@ public class Listview extends JFrame implements ActionListener {
 	private JList<String> listNOK; 
 	private AccessTextFiles atf;
 	
+	/**
+	 * Class constructor. Gets the name, type and date of check of the file that is checked. Creates a window showing the
+	 * bad Urls of the file that is checked.
+	 * When a file is checked, it is added to the AccessTextFile vector (replaced if this file is already in it) and its informations.
+	 * Then those informations are written in the text file containing the files checked.
+	 * 
+	 * @param pTitle the title of the frame
+	 * @param vList the vector that will get the bad Urls
+	 * @param filePath the path of the file that is checked
+	 * @param pAtf the AccessTextFile used to access the files initialized in the main view.
+	 * @param pmv the main frame.
+	 *
+	 * @see AccessTextFiles
+	 * @see Mainview
+	 */
 	public Listview (String pTitle, Vector<String> vList, String filePath, AccessTextFiles pAtf, Mainview pmv){
 		super (pTitle);
 		
@@ -41,7 +56,7 @@ public class Listview extends JFrame implements ActionListener {
 		Date date = new Date();
 		atf.setDate(dateFormat.format(date).toString());
 		atf.addVector();
-		atf.writeUrls();
+		atf.writeChecked();
 				
 		listNOK = new JList<String>(vList);
 
@@ -63,6 +78,13 @@ public class Listview extends JFrame implements ActionListener {
 		
 		b.addActionListener(this);
 	}
+	
+	/**
+	 * Determine the events done in case of a ActionEvent. This very frame will be hidden then the main frame will be shown.
+	 *
+	 * @param  e The action event
+	 *
+	 */
 	public void actionPerformed(ActionEvent e){
 		this.setVisible(false);
 		mv.setVisible(true);

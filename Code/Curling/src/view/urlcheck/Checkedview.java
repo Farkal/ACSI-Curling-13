@@ -27,7 +27,18 @@ public class Checkedview extends JFrame implements ActionListener{
 	private AccessTextFiles atf;
 	private ReadToRow rtr;
 	private Mainview mv;
-
+	
+	/**
+	 * Class constructor. Creates a JTable where is shown the informations about the files that were checked.
+	 * To do that, it reads the text file containing the files checked.
+	 * 
+	 * @param pTitle the title of the frame
+	 * @param pAtf the AccessTextFile used to access the files initialized in the main view.
+	 * @param pmv the main frame.
+	 *
+	 * @see AccessTextFiles
+	 * @see Mainview
+	 */
 	public Checkedview (String pTitle, AccessTextFiles pAtf,Mainview pmv){
 		
 		super(pTitle);
@@ -79,7 +90,12 @@ public class Checkedview extends JFrame implements ActionListener{
 		bOk.addActionListener(this);
 		
 	}
-	
+	/**
+	 * Determine the events done in case of a ActionEvent. This very frame will be hidden then the main frame will be shown.
+	 *
+	 * @param  e The action event
+	 *
+	 */
 	public void actionPerformed(ActionEvent e){
 		this.setVisible(false);
 		mv.setVisible(true);

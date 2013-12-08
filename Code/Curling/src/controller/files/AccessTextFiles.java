@@ -18,9 +18,14 @@ public class AccessTextFiles {
 	private String fileName;
 	private String date;
 	private String workingDir = System.getProperty("user.dir");
-	
 	final static Charset ENCODING = StandardCharsets.UTF_8;
 	
+	/**
+	 * Read lines from a file and stores each one in a vector.
+	 *
+	 * @param  pFileName the name of the file we whant to read.
+	 *
+	 */
 	public void read(String pFileName) throws IOException {
 		v = new Vector<String>();
 	    Path path = Paths.get(pFileName);
@@ -33,6 +38,13 @@ public class AccessTextFiles {
 	    }
 	 }
 	
+	/**
+	 * Writes into a file from a vector. Each line of the file will be an element of the vector.
+	 *
+	 * @param aFileName the name of the file we whant to read.
+	 * @param aLines the vector we whant to write from.
+	 *
+	 */
 	 public void write(String aFileName, Vector<String> aLines) throws IOException {
 		    Path path = Paths.get(aFileName);
 		    try (BufferedWriter writer = Files.newBufferedWriter(path, ENCODING)){
@@ -43,9 +55,16 @@ public class AccessTextFiles {
 		    }
 	 }
 	 
+	 /**
+	 * Reads the specific file that we use to store the files checked using the method read.
+	 * Returns a vector containing each line of this file.
+	 *
+	 * @see Vector
+	 * @return v the vector containing each line of the file read.
+	 */
 	 public Vector<String> readFileUrls(){
 		 	if (workingDir == System.getProperty("user.dir"))
-		 			workingDir += "\\bd.txt";
+		 			workingDir += "\\checked.txt";
 
 			
 			try {
@@ -57,22 +76,42 @@ public class AccessTextFiles {
 		 
 	 }
 	 
+	 /**
+	 * Sets the fileName attribute using the parameter.
+	 *
+	 * @param pfileName the name of the file.
+	 */
 	 public void setFileName(String pfileName){
 		 fileName = pfileName;
 	 }
 	 
+	 /**
+	 * Sets the type attribute using the parameter.
+	 *
+	 * @param pfileType the name of the file.
+	 */
 	 public void setTypeFile(String pfileType){
 		 
 		 fileType = pfileType;
 		
 	 }
 	 
+	 /**
+	 * Sets the date attribute using the parameter.
+	 *
+	 * @param pdate the name of the file.
+	 */
 	 public void setDate(String pdate){
 		 
 		 date = pdate;
 		 
 	 }
 	 
+	 /**
+	 * Adds a line to the vector containing the files checked. If this file was already in it, replaces the line in question
+	 * with the new one.
+	 *
+	 */
 	 public void addVector(){
 		int i =0;
 		int j;
@@ -91,16 +130,27 @@ public class AccessTextFiles {
 		v.add(fileName + ' ' + fileType + ' ' + date);
 		
 	 }
-	 public void writeUrls(){
+	 /**
+	 * Writes the new vector containing the new set of checked files into the data file using the method write.
+	 *
+	 */
+	 public void writeChecked(){
 		 try {
-			write("bd.txt", v);
+			write("checked.txt", v);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		 
 		 
 	 }
-	 
+	 /**
+	 * Returns the vector containing the checked files.
+	 *
+	 * @return v the containing the checked files
+	 * 
+	 * @see Vector
+	 * 
+	 */
 	 public Vector<String> getVector(){
 		 return v;
 	 }
