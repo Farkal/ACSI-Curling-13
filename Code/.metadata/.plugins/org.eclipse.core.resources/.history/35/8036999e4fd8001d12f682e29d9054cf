@@ -1,0 +1,43 @@
+/**
+ * @(#)CompteSecurise.java
+ *
+ *
+ * @author 
+ * @version 1.00 2013/10/24
+ */
+
+
+public class CompteSecurise extends CompteDepot {
+
+	private double decAutorise;
+	
+    public CompteSecurise() {
+    	decAutorise = 0;
+    }
+    
+    public CompteSecurise (String pNumCompte, String pNomProp){
+    	super(pNumCompte,pNomProp);
+    	decAutorise = 0;
+    }
+    
+    public CompteSecurise (String pNumCompte, String pNomProp, double pDA){
+    	super(pNumCompte,pNomProp);
+    	decAutorise = pDA;
+    }
+    
+    public void retirer (double pSomme){
+    	if (isRetraitPossible(pSomme))
+    		super.retirer(pSomme);
+    	else
+    		throw new RuntimeException();
+    }
+    
+    public boolean isRetraitPossible(double pSomme){
+    	return((this.soldeCompte()-pSomme)>=-this.decAutorise);
+    }
+    
+    public void afficher (){
+    	super.afficher();
+    	System.out.println("-Decouvert Autorise : " + this.decAutorise);
+    }
+}

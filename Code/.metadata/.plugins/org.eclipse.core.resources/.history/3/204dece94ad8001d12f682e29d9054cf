@@ -1,0 +1,134 @@
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+/* Test de la classe CompteJeune
+ *
+ * Test simples : constructeurs 
+ * ... et transformateurs (setters) hérités
+ * 
+ */
+
+public class TestCompteJeune extends TestCase {
+
+	// Attributs locaux pour les tests.
+	// A ne pas modifier
+	private CompteJeune cDef, cDeux;
+
+	private final String pasDeNC = "Pas de numéro";
+	private final String pasDeNP = "Pas de propriétaire";
+	private final String np = "Durand";
+	private final String nc = "010101";
+
+	private final double cre = 2000.0;
+	private final double deb = 1000.0;
+
+	private final double retrait = 1000.0;
+
+	@Override
+	protected void setUp() throws Exception {
+		this.cDef = new CompteJeune();
+		this.cDeux = new CompteJeune(new String(this.nc), new String(this.np));
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		this.cDef = null;
+		this.cDeux = null;
+	}
+
+	public void testCompteJeuneDefaut() {
+		// test constructeur par défaut
+		TestCase.assertEquals("PROBLEME CompteJeune() : mauvais solde ...",
+				0.0, this.cDef.soldeCompte());
+		TestCase.assertEquals(
+				"PROBLEME CompteJeune() : mauvais propriétaire ...",
+				this.pasDeNP, this.cDef.getProprietaire());
+		TestCase.assertEquals(
+				"PROBLEME CompteJeune() : mauvais numéro de compte ...",
+				this.pasDeNC, this.cDef.getNumCompte());
+	}
+
+	public void testCompteJeune2Parametres() {
+		// test constructeur CompteJeune (String pNumCompte, String pNomProp)
+		TestCase.assertEquals(
+				"PROBLEME CompteJeune(nc, np) : mauvais solde ...", 0.0,
+				this.cDeux.soldeCompte());
+		TestCase.assertEquals(
+				"PROBLEME CompteJeune(nc, np) : mauvais propriétaire ...",
+				this.np, this.cDeux.getProprietaire());
+		TestCase.assertEquals(
+				"PROBLEME CompteJeune(nc, np) : mauvais numéro de compte ...",
+				this.nc, this.cDeux.getNumCompte());
+	}
+
+	public void testIsRetraitPossibleTest1() {
+
+		// On vérifie que le comportement hérité est conservé ...
+
+		TestCase.assertFalse(
+				"PROBLEME isRetraitPossible () : retrait accepté lorsque impossible ...",
+				this.cDeux.isRetraitPossible(this.retrait));
+		this.cDeux.deposer(this.cre);
+		TestCase.assertTrue(
+				"PROBLEME isRetraitPossible () : retrait refusé lorsque possible ...",
+				this.cDeux.isRetraitPossible(this.retrait));
+		this.cDeux.retirer(this.deb);
+		TestCase.assertTrue(
+				"PROBLEME isRetraitPossible () : retrait refusé lorsque possible ...",
+				this.cDeux.isRetraitPossible(this.retrait));
+		this.cDeux.retirer(this.deb);
+		TestCase.assertFalse(
+				"PROBLEME isRetraitPossible () : retrait accepté lorsque impossible ...",
+				this.cDeux.isRetraitPossible(this.retrait));
+		this.cDeux.deposer(this.cre);
+		this.cDeux.retirer(this.deb);
+		this.cDeux.retirer(this.deb);
+		this.cDeux.deposer(this.retrait);
+		TestCase.assertTrue(
+				"PROBLEME isRetraitPossible () : retrait refusé lorsque possible ...",
+				this.cDeux.isRetraitPossible(this.retrait));
+		this.cDeux.retirer(this.retrait);
+		this.cDeux.deposer(this.cre);
+		this.cDeux.retirer(this.deb);
+		this.cDeux.retirer(this.deb / 2);
+		TestCase.assertFalse(
+				"PROBLEME isRetraitPossible () : retrait accepté lorsque impossible ...",
+				this.cDeux.isRetraitPossible(this.retrait));
+	}
+
+	public void testpourVerifierFonctionnementMinimal() {
+		double soldeAvant;
+		String nouvNom;
+
+		// test deposer()
+		soldeAvant = this.cDeux.soldeCompte();
+		this.cDeux.deposer(this.cre);
+		TestCase.assertEquals("PROBLEME deposer() : mauvais solde...",
+				soldeAvant + this.cre, this.cDeux.soldeCompte());
+
+		// test retirer()
+		soldeAvant = this.cDeux.soldeCompte();
+		this.cDeux.retirer(this.deb);
+		TestCase.assertEquals("PROBLEME retirer() : mauvais solde...",
+				soldeAvant - this.deb, this.cDeux.soldeCompte());
+
+		// test retirer()
+		soldeAvant = this.cDeux.soldeCompte();
+		this.cDeux.retirer(this.deb);
+		TestCase.assertEquals("PROBLEME retirer() : mauvais solde...",
+				soldeAvant - this.deb, this.cDeux.soldeCompte());
+
+		// test setProprietaire
+		nouvNom = "CORRIGE" + this.np + "CORRIGE";
+		this.cDeux.setProprietaire(nouvNom);
+		TestCase.assertEquals(
+				"PROBLEME setProprietaire() : mauvaise modification ...",
+				nouvNom, this.cDeux.getProprietaire());
+	}
+
+	public static void main(String argv[]) {
+		TestSuite suite = new TestSuite("Tests complets");
+		suite.addTestSuite(TestCompteJeune.class);
+		junit.textui.TestRunner.run(suite);
+	}
+}

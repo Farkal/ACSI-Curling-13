@@ -1,0 +1,145 @@
+
+
+public
+class Test {
+
+	public static void main(String[] args) {
+
+
+		System.out.println("Test CompteMoneo");
+		CompteMoneo cm = new CompteMoneo("cm", "prop cm", "00101023");
+		cm.afficher();
+		cm.deposer(100);
+		cm.retirer(50);
+		cm.afficher();
+		System.out.println(cm.soldeCompte());
+		System.out.println(cm.getNoCarteMoneo());
+		cm.setNoCarteMoneo ("121245457878");
+		cm.afficher ();
+		System.out.println(cm.getNoCarteMoneo());
+
+
+		System.out.println("\n\nTest CompteDepot");
+		CompteDepot cd = new CompteDepot ("cd", "prop cd");
+		Operation opescd[];
+		cd.afficher();
+		opescd = cd.getOperations();
+		System.out.println("  Opérations :");
+		for (int i =0; i<opescd.length; i++)
+			System.out.println ("    - "+ opescd[i].getSens() + " : " + opescd[i].getMontant());
+		cd.deposer(1000);
+		cd.retirer(100);
+		cd.deposer(50);
+		cd.retirer(200);
+		cd.retirer(300);
+		cd.afficher();
+		System.out.println(cd.soldeCompte());
+		opescd = cd.getOperations();
+		System.out.println("  Opérations :");
+		for (int i =0; i<opescd.length; i++)
+			System.out.println ("    - "+ opescd[i].getSens() + " : " + opescd[i].getMontant());
+
+
+
+		System.out.println("\n\nTest CompteEpargne");
+		CompteEpargne ce = new CompteEpargne("ce", "prop ce", 5);
+		Operation opesce[];
+		ce.afficher();
+		ce.deposer(100);
+		ce.retirer(50);
+		ce.afficher();
+		System.out.println(ce.soldeCompte());
+		System.out.println(ce.interetsCompte());
+		ce.ajouterInterets ();
+		ce.afficher();
+		System.out.println(ce.soldeCompte());
+		ce.retirer(150);
+		System.out.println(ce.soldeCompte());
+		System.out.println(ce.interetsCompte());
+		ce.ajouterInterets ();
+		ce.afficher();
+		System.out.println(ce.soldeCompte());
+		opesce = ce.getOperations();
+		System.out.println("  Opérations :");
+		for (int i =0; i<opesce.length; i++)
+			System.out.println ("    - "+ opesce[i].getSens() + " : " + opesce[i].getMontant());
+
+
+
+		System.out.println("\n\nTest CompteSecurise");
+		CompteSecurise cs = new CompteSecurise ("cs", "prop cs", 1000);
+		Operation opescs[];
+		cs.afficher();
+		cs.deposer(100);
+		cs.retirer(500);
+		cs.retirer(500);
+		cs.retirer(50);
+		// A tester :
+		// cs.retirer(60); // Fait arrêter le programme : dépassement de découvert autorisé
+		cs.afficher();
+		System.out.println(cs.soldeCompte());
+		System.out.println("  Opérations :");
+		opescs = cs.getOperations();
+		for (int i =0; i<opescs.length; i++)
+			System.out.println ("    - "+ opescs[i].getSens() + " : " + opescs[i].getMontant());
+
+		if (cs.isRetraitPossible(40))
+		{
+			cs.retirer(40);
+			cs.afficher();
+			System.out.println(cs.soldeCompte());
+			System.out.println(" Retrait 40 possible : OK.");
+		}
+		if (cs.isRetraitPossible(60))
+		{
+			System.out.println(" Retrait 60 Possible : PBPBPBPBPB.");
+			cs.retirer(60);
+			cs.afficher();
+			System.out.println(cs.soldeCompte());
+		}
+		else
+		{
+			System.out.println(" Retrait 60 IMpossible : OK.");
+		}
+
+		System.out.println("\n\nTest CompteBancaire");
+		CompteBancaire cb = new CompteBancaire ("cb", "prop cb", "010202558", 2000);
+		Operation opescb[];
+		cb.afficher();
+		cb.deposer(100);
+		cb.deposer(50);
+		if (cb.isRetraitPossible(200))
+			cb.retirer(200);
+		if (cb.isRetraitPossible(50))
+			cb.retirer(50);
+		// A tester :
+		// cb.retirer (1901); // Fait arrêter le programme : dépassement de découvert autorisé
+		cb.afficher();
+		System.out.println(cb.soldeCompte());
+		System.out.println(cb.getNumCarteJisa());
+		cb.setNumCarteJisa("78787878");
+		System.out.println(cb.getNumCarteJisa());
+		opescb = cb.getOperations();
+		for (int i =0; i<opescb.length; i++)
+			System.out.println ("    - "+ opescb[i].getSens() + " : " + opescb[i].getMontant());
+
+
+		System.out.println("\n\nTest CompteJeune");
+		CompteJeune cj = new CompteJeune("cb", "prop cb");
+		Operation opescj[];
+		cj.afficher();
+		cj.deposer(100);
+		if (cj.isRetraitPossible(50))
+			cj.retirer(50);
+		// A tester :
+		// cj.retirer(51); // Fait arrêter le programme : dépassement de découvert autorisé (50 serait ok)
+		cj.afficher();
+		System.out.println(cj.soldeCompte());
+		opescj = cj.getOperations();
+		for (int i =0; i<opescj.length; i++)
+			System.out.println ("    - "+ opescj[i].getSens() + " : " + opescj[i].getMontant());
+
+
+	}
+
+}

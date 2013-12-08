@@ -1,0 +1,125 @@
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+/* Test de la classe CompteMoneo
+ *
+ * Test simples : constructeurs, setNoCarteMoneo() 
+ * ... et transformateurs (setters) hérités
+ * 
+ */
+
+public class TestCompteMoneo extends TestCase {
+
+	// Attributs locaux pour les tests.
+	// A ne pas modifier
+	
+	private CompteMoneo cDef, cUn, cDeux;
+
+	private final String pasDeNC = "Pas de numéro";
+	private final String pasDeNP = "Pas de propriétaire";
+	private final String pasDeNumMoneo = "Pas de numéro monéo";
+	private final String np = "Durand";
+	private final String nc = "010101";
+	private final String nm = "NM989898";
+
+	@Override
+	protected void setUp() throws Exception {
+		this.cDef = new CompteMoneo();
+		this.cUn = new CompteMoneo(new String(this.nm));
+		this.cDeux = new CompteMoneo(new String(this.nc), new String(this.np),
+				new String(this.nm));
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		this.cDef = null;
+		this.cUn = null;
+		this.cDeux = null;
+	}
+
+	public void testCompteMoneoDefaut() {
+		// test constructeur par défaut
+		TestCase.assertEquals(
+				"PROBLEME CompteMoneo() : mauvais numéro Monéo ...",
+				this.pasDeNumMoneo, this.cDef.getNoCarteMoneo());
+		TestCase.assertEquals("PROBLEME CompteMoneo() : mauvais solde ...",
+				0.0, this.cDef.soldeCompte());
+		TestCase.assertEquals(
+				"PROBLEME CompteMoneo() : mauvais propriétaire ...",
+				this.pasDeNP, this.cDef.getProprietaire());
+		TestCase.assertEquals(
+				"PROBLEME CompteMoneo() : mauvais numéro de compte ...",
+				this.pasDeNC, this.cDef.getNumCompte());
+	}
+
+	public void testCompteMoneo1Parametres() {
+		// test constructeur CompteMoneo (String pNoCarteMoneo)
+		TestCase.assertEquals(
+				"PROBLEME CompteMoneo(ncm) : mauvais numéro Monéo ...",
+				this.nm, this.cUn.getNoCarteMoneo());
+		TestCase.assertEquals("PROBLEME CompteMoneo(ncm) : mauvais solde ...",
+				0.0, this.cUn.soldeCompte());
+		TestCase.assertEquals(
+				"PROBLEME CompteMoneo(ncm) : mauvais propriétaire ...",
+				this.pasDeNP, this.cUn.getProprietaire());
+		TestCase.assertEquals(
+				"PROBLEME CompteMoneo(ncm) : mauvais numéro de compte ...",
+				this.pasDeNC, this.cUn.getNumCompte());
+	}
+
+	public void testCompteMoneo2Parametres() {
+		// test constructeur CompteMoneo (String pNumCompte, String pNomProp,
+		// String pNoCarteMoneo)
+		TestCase.assertEquals(
+				"PROBLEME CompteMoneo(nc, np, ncm) : mauvais numéro Monéo ...",
+				this.nm, this.cDeux.getNoCarteMoneo());
+		TestCase.assertEquals(
+				"PROBLEME CompteMoneo(nc, np, ncm) : mauvais solde ...", 0.0,
+				this.cDeux.soldeCompte());
+		TestCase.assertEquals(
+				"PROBLEME CompteMoneo(nc, np, ncm) : mauvais propriétaire ...",
+				this.np, this.cDeux.getProprietaire());
+		TestCase.assertEquals(
+				"PROBLEME CompteMoneo(nc, np, ncm) : mauvais numéro de compte ...",
+				this.nc, this.cDeux.getNumCompte());
+	}
+
+	public void testSetNoCarteMoneo() {
+		// tests setNoCarteMoneo (String pNCM)
+		String nouvCarte = "CORRIGE" + this.nm + "CORRIGE";
+
+		this.cDeux.setNoCarteMoneo(nouvCarte);
+		TestCase.assertEquals("PROBLEME setNoCarteMoneo() : mauvais solde...",
+				nouvCarte, this.cDeux.getNoCarteMoneo());
+	}
+
+	public void testpourVerifierFonctionnementMinimal() {
+		double soldeAvant;
+		String nouvNom;
+
+		// test deposer()
+		soldeAvant = this.cDeux.soldeCompte();
+		this.cDeux.deposer(1000);
+		TestCase.assertEquals("PROBLEME deposer() : mauvais solde...",
+				soldeAvant + 1000, this.cDeux.soldeCompte());
+
+		// test retirer()
+		soldeAvant = this.cDeux.soldeCompte();
+		this.cDeux.retirer(1000);
+		TestCase.assertEquals("PROBLEME retirer() : mauvais solde...",
+				soldeAvant - 1000, this.cDeux.soldeCompte());
+
+		// test setProprietaire
+		nouvNom = "CORRIGE" + this.np + "CORRIGE";
+		this.cDeux.setProprietaire(nouvNom);
+		TestCase.assertEquals(
+				"PROBLEME setProprietaire() : mauvaise modification ...",
+				nouvNom, this.cDeux.getProprietaire());
+	}
+
+	public static void main(String argv[]) {
+		TestSuite suite = new TestSuite("Tests complets");
+		suite.addTestSuite(TestCompteMoneo.class);
+		junit.textui.TestRunner.run(suite);
+	}
+}

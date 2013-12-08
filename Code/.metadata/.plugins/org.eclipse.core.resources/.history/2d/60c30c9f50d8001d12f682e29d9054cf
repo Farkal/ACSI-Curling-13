@@ -1,0 +1,67 @@
+import java.util.*;
+
+/**
+ * Un CompteDepot est un compte dont les opérations effectuées sont enregistrées.<BR>	
+ * @author Tom Meehan
+ * @version 1.00 2013/10/24
+ */
+
+public class CompteDepot extends Compte {
+	
+	private Vector<Operation> operations;
+
+	//Constructeurs
+	
+/**
+ *  Constructeur non paramétré par défaut.<BR>
+ *  Permet de créer un CompteDepot.<BR>
+ *  Le Vecteur d'opération est initialisé.<BR>
+ *  
+ *  @see CompteDepot#CompteDepot(String, String)
+ */
+    public CompteDepot () {
+    	this.operations = new Vector<Operation>();
+    }
+    
+    public CompteDepot (String pNumCompte, String pNomProp){
+    	super(pNumCompte,pNomProp);
+    	this.operations = new Vector<Operation>();
+    }
+    
+    public void retirer (double pSomme){
+    	Operation op = new Operation(SensOperation.DEBIT,pSomme);
+    	super.retirer(pSomme);
+    	this.operations.add(op);   	
+    }
+    
+    public void deposer (double pSomme){
+    	Operation op = new Operation(SensOperation.CREDIT,pSomme);
+    	super.deposer(pSomme);
+    	this.operations.add(op);   
+    	
+    }
+    
+    public Operation[] getOperations (){
+    	return (this.operations.toArray(new Operation[0]));
+    }
+    
+    public void afficher(){
+    	int i,sz;
+    	sz=this.operations.size();
+    	Operation op[];
+    	op = new Operation[sz];
+    	op=getOperations();
+    	
+    	super.afficher();
+    	System.out.println("-Liste opérations :");
+    	for (i=0;i<sz;i++)
+			System.out.println ("    - "+ op[i].getSens() + " : " + op[i].getMontant());
+    }
+    
+    /*
+     *	- Il ne faut pas renvoyer le vecteur directement pour éviter qu'il soit modifié ensuite, c'est un attribut de CompteSecurise et donc private.
+     *
+     *	- Les attributs de la classe Operation sont private donc inaccessibles à l'exterieur de la classe et aucune méthode de Operation ne permet de
+     *		modifier ses attributs.
+     */
+}

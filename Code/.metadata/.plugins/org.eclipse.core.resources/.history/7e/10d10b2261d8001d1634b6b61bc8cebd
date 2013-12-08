@@ -1,0 +1,11 @@
+import utilitaires.*;
+
+public class Test {
+
+	public static void main(String[] args) {
+		
+		
+		Keyboard.readForWait("Fin");
+	}
+
+}

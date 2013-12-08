@@ -3,14 +3,18 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import controller.files.AccessTextFiles;
+import controller.files.ReadToRow;
 import view.utils.MyModel;
 
 public class Checkedview extends JFrame implements ActionListener{
@@ -19,22 +23,40 @@ public class Checkedview extends JFrame implements ActionListener{
 	private JScrollPane tabPanel;
 	private JPanel bPanel;
 	private JButton bOk;
-	
-	public Checkedview (String pTitle){
+	private Vector<String> v;
+	private AccessTextFiles atf;
+	private ReadToRow rtr;
+	private Mainview mv;
+
+	public Checkedview (String pTitle, AccessTextFiles pAtf,Mainview pmv){
 		
 		super(pTitle);
 		
+		mv = pmv;
+		
+		atf = pAtf;
+				
 		String[] columns = {"Absolute path","Type","Last checked"};
-		Object[][] data = {
-				{"C:\\Program Files\\etc...",".txt","12/11/2013"},
-				{"insert path here",".exe","Hier"},
-				{"Jambon","beurre","fromage"}
-		};
+		Object[][] data = null;
 		MyModel model;
 		
 		this.setBounds(450,200,600,200);
 		
 		model = new MyModel(data,columns);
+		
+		v = atf.readFileUrls();
+		if(v == null){
+			Object[][] err = {{"Aucun fichier n'a été vérifié"}};
+			model.addRow(err[0]);
+		}
+		else{
+			for (int i = 0;i<v.size();i++){
+				rtr = new ReadToRow();
+				rtr.toRow(v.elementAt(i));
+				model.addRow(rtr.getRow()[0]);
+			}
+		}
+		
 		checkedURLs = new JTable(model);
 
 		tabPanel = new JScrollPane(checkedURLs);
@@ -60,7 +82,7 @@ public class Checkedview extends JFrame implements ActionListener{
 	
 	public void actionPerformed(ActionEvent e){
 		this.setVisible(false);
-		new Mainview("Curling").setVisible(true);
+		mv.setVisible(true);
 		
 	}
 

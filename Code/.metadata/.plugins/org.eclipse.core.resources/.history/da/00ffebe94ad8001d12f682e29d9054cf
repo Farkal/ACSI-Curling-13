@@ -1,0 +1,141 @@
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+/* Test de la classe Compte
+ *
+ * On supposera que les "méthodes"
+ * 		constructeurs
+ * 		retirer()
+ *		deposer()
+ *		setProprietaire()
+ * 	"renvoient un objet Compte" afin de pouvoir écrire les 
+ *  expressions ci-dessous.
+ * 
+ * En tant que TAD, il est possible de spécifier :
+ *
+ * Préconditions : -
+ * 
+ * soldeCompte (Compte()) == 0
+ * getProprietaire (Compte()) == "Pas de propriétaire"
+ * getNumCompte (Compte()) == "Pas de numéro"
+ *
+ * soldeCompte (Compte(nc, np)) == 0
+ * getProprietaire (Compte(nc, np)) == np
+ * getNumCompte (Compte(nc, np)) == nc
+ * 
+ * soldeCompte (Compte(nc, np, d, c)) == c - d
+ * getProprietaire (Compte(nc, pn, d, c)) == np
+ * getNumCompte (Compte(nc, np, d, c)) == nc
+ * 
+ * soldeCompte(deposer(c, m)) == soldeComte(c) + m
+ * 
+ * soldeCompte(retirer(c, m)) == soldeComte(c) - m
+ * 
+ * getProprietaire (setProprietaire(c, np)) == np 
+ */
+
+public class TestCompte extends TestCase {
+
+	// Attributs locaux pour les tests.
+	// A ne pas modifier
+	private Compte cDef, cDeux, cQuatre;
+
+	private final String pasDeNC = "Pas de numéro";
+	private final String pasDeNP = "Pas de propriétaire";
+	private final String np = "Durand";
+	private final String nc = "010101";
+	private final double cre = 2000;
+	private final double deb = 1000;
+
+	@Override
+	protected void setUp() throws Exception {
+		this.cDef = new Compte();
+		this.cDeux = new Compte(this.nc, this.np);
+		this.cQuatre = new Compte(this.nc, this.np, this.deb, this.cre);
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		this.cDef = null;
+		this.cDeux = null;
+		this.cQuatre = null;
+	}
+
+	public void testCompteDefaut() {
+		/*
+		 * soldeCompte (Compte()) == 0 getProprietaire (Compte()) ==
+		 * "Pas de propriétaire" getNumCompte (Compte()) == "Pas de numéro"
+		 */
+		TestCase.assertEquals("PROBLEME Compte() : mauvais solde ...", 0.0,
+				this.cDef.soldeCompte());
+		TestCase.assertEquals("PROBLEME Compte() : mauvais propriétaire ...",
+				this.pasDeNP, this.cDef.getProprietaire());
+		TestCase.assertEquals(
+				"PROBLEME Compte() : mauvais numéro de compte ...",
+				this.pasDeNC, this.cDef.getNumCompte());
+	}
+
+	public void testCompte2Parametres() {
+		/*
+		 * soldeCompte (Compte(nc, np)) == 0 getProprietaire (Compte(nc, np)) ==
+		 * np getNumCompte (Compte(nc, np)) == nc
+		 */
+		TestCase.assertEquals("PROBLEME Compte(nc, np) : mauvais solde ...",
+				0.0, this.cDeux.soldeCompte());
+		TestCase.assertEquals(
+				"PROBLEME Compte(nc, np) : mauvais propriétaire ...", this.np,
+				this.cDeux.getProprietaire());
+		TestCase.assertEquals(
+				"PROBLEME Compte(nc, np) : mauvais numéro de compte ...",
+				this.nc, this.cDeux.getNumCompte());
+	}
+
+	public void testCompte4Parametres() {
+		/*
+		 * soldeCompte (Compte(nc, np, d, c)) == c - d getProprietaire
+		 * (Compte(nc, pn, d, c)) == np getNumCompte (Compte(nc, np, d, c)) ==
+		 * nc
+		 */
+		TestCase.assertEquals(
+				"PROBLEME Compte(nc, np, d, c) : mauvais solde ...", this.cre
+						- this.deb, this.cQuatre.soldeCompte());
+		TestCase.assertEquals(
+				"PROBLEME Compte(nc, np, d, c) : mauvais propriétaire ...",
+				this.np, this.cQuatre.getProprietaire());
+		TestCase.assertEquals(
+				"PROBLEME Compte(nc, np, d, c) : mauvais numéro de compte ...",
+				this.nc, this.cQuatre.getNumCompte());
+
+	}
+
+	public void testDeposer() {
+		// soldeCompte( deposer(c, m) ) == soldeComte(c) + m
+		double soldeAvant = this.cQuatre.soldeCompte();
+		this.cQuatre.deposer(1000);
+		TestCase.assertEquals("PROBLEME deposer() : mauvais solde...",
+				soldeAvant + 1000, this.cQuatre.soldeCompte());
+	}
+
+	public void testRetirer() {
+		// soldeCompte( retirer(c, m) ) == soldeComte(c) - m
+		double soldeAvant = this.cQuatre.soldeCompte();
+		this.cQuatre.retirer(1000);
+		TestCase.assertEquals("PROBLEME retirer() : mauvais solde...",
+				soldeAvant - 1000, this.cQuatre.soldeCompte());
+	}
+
+	public void testSetProprietaire() {
+		// getProprietaire (setProprietaire(c, np)) == np
+		String nouvNom = "CORRIGE" + this.np + "CORRIGE";
+		this.cQuatre.setProprietaire(nouvNom);
+		TestCase.assertEquals(
+				"PROBLEME setProprietaire() : mauvaise modification ...",
+				nouvNom, this.cQuatre.getProprietaire());
+	}
+
+	public static void main(String argv[]) {
+		TestSuite suite = new TestSuite("Tests complets");
+		suite.addTestSuite(TestCompte.class);
+		junit.textui.TestRunner.run(suite);
+	}
+}

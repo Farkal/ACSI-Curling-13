@@ -1,0 +1,22 @@
+package model.filechecked;
+
+public class FileChecked {
+	
+	private String path;
+	private String type;
+	private String date;
+	private String[][] data;
+	
+	public FileChecked (String line){
+		
+		String tab[] = String.split(" ",3);
+		System.out.println(tab[0]);
+		
+		String input = "hello world, this is a line of text";
+
+		int i = input.indexOf(' ');
+		String word = input.substring(0, i);
+		String rest = input.substring(i);
+	}
+
+}

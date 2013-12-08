@@ -1,0 +1,18 @@
+package model.filechecked;
+
+public class FileChecked {
+	
+	private String path;
+	private String type;
+	private String date;
+	private String[][] data;
+	
+	public FileChecked (String line){
+
+		int i = line.indexOf(' ');
+		path = line.substring(0, i);
+		type = line.substring(i,line.indexOf(' '));
+		date = line.substring(line.indexOf(' '));
+	}
+
+}

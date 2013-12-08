@@ -1,0 +1,78 @@
+import utilitaires.*;
+
+public class Test {
+
+	public static void main(String[] args) {
+		int i,km;
+		double cout, txUsure, ratio;
+		String marque;
+		
+		// I //
+		
+		//2
+		Vehicule veh;
+				
+		//3
+		veh = new Voiture("012345",10,"BMW",0.1);
+		
+		//4
+		veh.setConso(6.5);
+		veh.rouler(5);
+		veh.rouler(6);
+		km = veh.getKilometrage();
+
+		//5
+		veh.afficher(); 
+		//Est appelé la méthode afficher de la classe Voiture, car elle y est redéfinie.
+		
+		//6
+		cout = veh.coutTotal();
+		//Est appelé la méthode coutTotal de la classe Voiture, car elle y est redéfinie.
+		
+		//7
+		//marque = veh.getMarque();
+		//txUsure = veh.getTauxUsure();	
+		
+		//Les méthodes spécifiques de la classe Voiture ne sont pas reconnue car non définie dans Vehicule.
+		
+		//8
+		marque = ((Voiture)veh).getMarque();
+		txUsure = ((Voiture)veh).getTauxUsure();
+		System.out.println(marque + "\n" + txUsure);
+		
+		//9
+		//((Camion)veh).setRatio(1.5);
+		//ratio = ((Camion)veh).getRatio();
+		//System.out.println(ratio);
+		
+		/*Aucune erreur de compilation n'est détectée (conversions explicites toujours acceptée a la compilation), 
+		mais a l'execution une erreur est levée : impossible de cast la Voiture en Camion.*/
+		
+		
+		// II //
+		
+		//1
+		Vehicule tabV[];
+		tabV = new Vehicule[6];
+		
+		//2
+		tabV[0] = new Voiture();
+		tabV[1] = new Camion();
+		tabV[2] = new Voiture("2222",2);
+		tabV[3] = new Voiture("3333",3,"Renault",0.3);
+		tabV[4] = new Camion("4444",4);
+		tabV[5] = new Camion("5555",5,50,0.5);
+		
+		for (i=0;i<6;i++){
+			tabV[i].afficher();
+			System.out.println(tabV[i].coutTotal());
+		}
+
+	
+		
+		
+		
+		
+	}
+
+}

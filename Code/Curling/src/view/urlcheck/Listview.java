@@ -1,31 +1,50 @@
 package view.urlcheck;
 import javax.swing.*;
 
-import view.utils.MyModel;
+import controller.files.AccessTextFiles;
 
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Vector;
 
 public class Listview extends JFrame implements ActionListener {
 
+	private Mainview mv;
 	private JButton b;
 	private JScrollPane jsp;
 	private JPanel panel;
 	private JList<String> listNOK; 
+	private AccessTextFiles atf;
 	
-	public Listview (String pTitle, Vector<String> vList){
+	public Listview (String pTitle, Vector<String> vList, String filePath, AccessTextFiles pAtf, Mainview pmv){
 		super (pTitle);
+		
+		mv = pmv;
+		
 		this.setBounds(450,200, 600, 400);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
 		this.panel = new JPanel();
 		this.b = new JButton ("OK");
 
+		atf = pAtf;
 		
+		atf.setFileName(filePath);
+		int i = filePath.indexOf('.');
+		atf.setTypeFile(filePath.substring(i));
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		atf.setDate(dateFormat.format(date).toString());
+		atf.addVector();
+		atf.writeUrls();
+				
 		listNOK = new JList<String>(vList);
+
 		
 		this.jsp = new JScrollPane();
 		
@@ -46,7 +65,7 @@ public class Listview extends JFrame implements ActionListener {
 	}
 	public void actionPerformed(ActionEvent e){
 		this.setVisible(false);
-		new Mainview("Curling").setVisible(true);
+		mv.setVisible(true);
 		
 		
 	}

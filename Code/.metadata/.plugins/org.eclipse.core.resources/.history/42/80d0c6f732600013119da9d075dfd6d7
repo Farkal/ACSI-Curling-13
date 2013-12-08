@@ -1,0 +1,26 @@
+package model.filechecked;
+
+public class FileChecked {
+	
+	private String path;
+	private String type;
+	private String date;
+	private String[][] data;
+	
+	public FileChecked (String line, int pNbRows){
+
+		int i = line.indexOf(' ');
+		path = line.substring(0, i);
+		type = line.substring(i+1);
+		i = type.indexOf(' ');
+		date = type.substring(i+1);
+		type = type.substring(0,i);
+		
+		System.out.println(path);
+		System.out.println(type);
+		System.out.println(date);
+		
+		data[i][] = { path,type,date}; 
+	}
+
+}

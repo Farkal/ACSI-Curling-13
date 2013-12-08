@@ -1,0 +1,10 @@
+
+public class Bateau extends Vehicule {
+
+	@Override
+	public double coutSuppl() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+}
